@@ -1,0 +1,38 @@
+.dx-datagrid-headers .dx-header-row {
+    height:35px !important;
+    background-color:rgb(57, 193, 213) !important; // linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%) !important; // 
+  }
+
+.dx-datagrid .dx-row > td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+@media only screen and (max-width: 575px) {
+  .dx-datagrid-search-panel .dx-show-invalid-badge .dx-textbox .dx-texteditor .dx-editor-underlined .dx-searchbox .dx-show-clear-button .dx-widget{
+      width:100px !important;
+    }
+}
+
+.dx-datagrid-search-panel {
+  @media only screen and (max-width: 960px) {
+    width: 100px !important;
+
+  }
+}
+#AppGridView .dx-checkbox-icon{
+    border: 2px solid rgba(0,0,0,.34);
+}
+#AppGridView .dx-datagrid-group-space {  
+  width: 15px!important;  
+  min-width: 15px!important;  
+}  
+// #AppGridView .dx-command-select {  
+//   width: 2px;  
+//   min-width: 2px;  
+// }  
+#AppGridView .dx-command-expand{
+  padding: 0 4px 0 0 !important;
+}

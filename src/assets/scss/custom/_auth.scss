@@ -1,0 +1,9 @@
+#dbyList .dx-item {
+    &.dx-list-item{
+        border-bottom: solid 1px rgba($color: black, $alpha: 0.4);
+        &.dx-list-item-selected{
+            background-color: rgba($color: teal, $alpha: 0.7) !important;
+            color: white;
+        }
+    }
+}
