@@ -1,7 +1,7 @@
 import React, {Suspense, useEffect} from 'react';
 import {Row, Col, Card } from 'react-bootstrap';
 import Loader from "../../layout/Loader";
-import { changeTools } from '../../../store/actions/apvAction';
+import { changeTools, SetTrigger } from '../../../store/actions/apvAction';
 import { useDispatch } from 'react-redux';
 // import FloatingButton from './FloatingButton';
 import isEmpty from '../../../store/helper/isEmpty';
@@ -15,6 +15,8 @@ function Approval({location}) {
     useEffect(() => {
         let UrlParam = new URLSearchParams(location.search);
         let pToken = UrlParam.get('tid');
+
+        dispatch(SetTrigger());
         
         if(!isEmpty(pToken)){
               dispatch(changeTools({ showToolMode : true }));

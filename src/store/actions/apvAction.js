@@ -12,6 +12,25 @@ let axiosConfig = {
     }
  }
 
+ export const SetTrigger = () => dispatch => {
+     let  axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
+            agno: localStorage.getItem('_agno'),
+            divno: localStorage.getItem('_divno'),
+            dby: localStorage.getItem('_dby'),
+        }
+     }
+
+     return Axios.get(`${config.apiURL}appdetails/triggers/checking`, axiosConfig)
+     .then((header) => { 
+        debugger;
+     })
+     .catch(e =>{
+         console.log(e);
+     }); 
+ }
+
 export const fetchDataByToken = (pToken, mode) =>  dispatch => {
  axiosConfig = {
     headers: {

@@ -1,4 +1,5 @@
 import * as actionTypes from '../types/dashType';
+import isEmpty from '../helper/isEmpty';
 
 function getFromLS(name, key) {
     let result;
@@ -24,11 +25,14 @@ const cD = new Date();
 const originalMmbPeriod = getFromLS('rgl-8', 'mmbPeriod', 'start') ? new Date(getFromLS('rgl-8', 'mmbPeriod', 'start').start) : 
                                                                      new Date('20' + localStorage.getItem('_dby'), cD.getMonth(), 1);
 
+const originaldashLocked = getFromLS('rgl-8', 'dashLock') ? false :  getFromLS('rgl-8', 'dashLock');
+
 const initialState = {
     dashLayout: JSON.parse(JSON.stringify(originalLayouts)),
     dashItems: originalItems,
-    dashLocked: false,
+    dashLocked: originaldashLocked,
     dsMmb: [],
+    dsMb: [],
     dsSxP: [],
     dsSbM: [],
 
@@ -59,6 +63,11 @@ export default (state = initialState, {type, payload}) => {
             return{
                 ...state,
                 dsMmb: payload
+            }
+        case actionTypes.CHANGE_DATA_MB:
+            return{
+                ...state,
+                dsMb: payload
             }
         case actionTypes.CHANGE_DATA_SXP:
             return{

@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Card } from 'react-bootstrap';
 import { Switch } from 'devextreme-react/switch';
-import { updateDashItems, setLockedDash } from '../../../store/actions/dashAction';
+import { updateDashItems, setLockedDash, updateDashLayout } from '../../../store/actions/dashAction';
 import { saveToLS, getFromLS } from '../../../store/helper/localStorage'
 
 function SettingDashboard() {
@@ -15,10 +15,24 @@ function SettingDashboard() {
         dispatch(updateDashItems({keyComponent : parseInt(e.element.attributes.key.value), isShow: e.value}))
     }
 
+    const changeLockedInStorage = (layouts, value) => {
+        let result = {...layouts}
+        for (let index = 0; index < Object.keys(layouts).length; index++) {
+            let key = Object.keys(layouts)[index];
+            result[key].forEach(element => {
+                element.static = value;
+            });
+        }
+        saveToLS('rgl-8', 'layouts', result);
+    }
+
     const changeValueLock = (e) => {
-            const layouts = getFromLS('rgl-8', 'layouts');
-            debugger;
-            dispatch(setLockedDash(e.value))
+            let layouts = getFromLS('rgl-8', 'layouts');
+            changeLockedInStorage(layouts, e.value);
+            dispatch(setLockedDash(e.value));
+            layouts = getFromLS('rgl-8', 'layouts');
+            dispatch(updateDashLayout(layouts));
+            saveToLS('rgl-8', 'dashLock', e.value);
     }
 
     return (
