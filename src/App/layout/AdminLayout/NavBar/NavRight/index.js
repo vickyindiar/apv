@@ -14,7 +14,6 @@ import { useHistory } from 'react-router-dom';
 function NavRight() {
 
     const contentWidth = document.getElementById('root').clientWidth;
-
     let ulClass = ['navbar-nav', 'mbl-mode'];
     if (contentWidth >= 575) {
         ulClass = ['navbar-nav', 'dsk-mode', 'ml-auto'];
@@ -82,7 +81,8 @@ function NavRight() {
     </Aux>
     )
 }
-export default React.memo(NavRight);
+const areEqual = (prevProps, nextProps) => true;
+export default React.memo(NavRight, areEqual);
 
 
 

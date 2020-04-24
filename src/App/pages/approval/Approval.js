@@ -11,7 +11,7 @@ const GridView = React.lazy(() => import(/* webpackChunkName: "grid-view" */'./G
 
 function Approval({location}) {
     const dispatch = useDispatch();
-    const contentWidth = document.getElementById('root').clientWidth;
+    //const contentWidth = document.getElementById('root').clientWidth;
     useEffect(() => {
         let UrlParam = new URLSearchParams(location.search);
         let pToken = UrlParam.get('tid');

@@ -53,7 +53,6 @@ class AdminLayout extends Component {
                     )} />
             ) : (null);
         });
-
         return (
             <Aux>
                 <Fullscreen enabled={this.props.isFullScreen}>

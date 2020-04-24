@@ -33,7 +33,6 @@ export const GetUserByToken = () => dispatch =>{
             localStorage.setItem('_divno', res.data.divno);
             localStorage.setItem('_dby', res.data.year.substring(2, 2));
             SetupTokenData()
-
         }
         else{
            

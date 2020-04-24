@@ -57,15 +57,15 @@ function SettingDashboard() {
                         </div>
                     </div>
                     <div className="dx-field">
-                        <div className="dx-field-label">Item2</div>
+                        <div className="dx-field-label">Monthly Billing</div>
                         <div className="dx-field-value">
-                                 <Switch defaultValue={dashItems[1].isShow} elementAttr={{id:'item2', key:2} }  onValueChanged={changeValue} />
+                                 <Switch defaultValue={dashItems[1].isShow} elementAttr={{id:'mb', key:2} }  onValueChanged={changeValue} />
                         </div>
                     </div>
                     <div className="dx-field">
-                        <div className="dx-field-label">Item3</div>
+                        <div className="dx-field-label">Yearly Billing</div>
                         <div className="dx-field-value">
-                                 <Switch  defaultValue={dashItems[2].isShow} elementAttr={{id:'item3', key:3} }  onValueChanged={changeValue} />
+                                 <Switch  defaultValue={dashItems[2].isShow} elementAttr={{id:'yb', key:3} }  onValueChanged={changeValue} />
                         </div>
                     </div>
                     <div className="dx-field">

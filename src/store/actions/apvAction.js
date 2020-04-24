@@ -22,9 +22,8 @@ let axiosConfig = {
         }
      }
 
-     return Axios.get(`${config.apiURL}appdetails/triggers/checking`, axiosConfig)
+    Axios.get(`${config.apiURL}appdetails/triggers/checking`, axiosConfig)
      .then((header) => { 
-        debugger;
      })
      .catch(e =>{
          console.log(e);

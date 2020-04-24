@@ -29,8 +29,6 @@ function FloatingButton() {
             record.detail = detail;
             result.push(record);
         })
-
-        console.log(result);
     } 
 
     const AskMail = () => {

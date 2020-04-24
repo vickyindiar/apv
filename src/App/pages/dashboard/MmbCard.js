@@ -7,13 +7,15 @@ import PieChart, { Series, Label, Connector } from 'devextreme-react/pie-chart';
 import config from '../../../config';
 import { saveToLS } from '../../../store/helper/localStorage';
 import moment from 'moment';
+import { useEffect } from 'react';
+import { isEmpty } from 'react-redux-firebase';
 
 
 function MmbCard({initRef}) {
     const dispatch = useDispatch();
     const dsMmb = useSelector(state => state.dash.dsMmb);
     const mmbPeriod = useSelector(state => state.dash.mmbPeriod);
-
+    const contentWidth = document.getElementById('root').clientWidth;
     const toggleVisibility = (item) => {
          item.isVisible() ? item.hide() : item.show(); 
         }
@@ -37,9 +39,12 @@ function MmbCard({initRef}) {
         saveToLS('rgl-8', 'mmbPeriod', {start: start, end: end});
     }
 
+
+     if(contentWidth <= 575 && !isEmpty(initRef.current)){ initRef.current.instance.render();}
+
+
    // const colorPallete = ['#35f2ed', '#37bad6', '#5a5d87', '#373c67', '#2b2954', '#1DE2BE', '#1DC7E5'];
     const customizeText = (arg) => { return `${arg.percentText}`; }
-
     return (
         <Card className='Mmb-card h-100'>
         <Card.Header>
@@ -75,5 +80,5 @@ function MmbCard({initRef}) {
     </Card>  
     )
 }
-
-export default React.memo(MmbCard)
+const areEqual = (prevProps, nextProps) => true;
+export default React.memo(MmbCard, areEqual)

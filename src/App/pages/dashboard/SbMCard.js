@@ -1,13 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { Card } from 'react-bootstrap';
-
 import PieChart, { Series, Label, Connector } from 'devextreme-react/pie-chart';
+import { isEmpty } from 'react-redux-firebase';
 
 function SbMCard({initRef}) {
-
     const dsSbM = useSelector(state => state.dash.dsSbM);
-
+    const contentWidth = document.getElementById('root').clientWidth;
     const toggleVisibility = (item) => { item.isVisible() ? item.hide() : item.show(); }
     const pointClickHandler = (e) => { this.toggleVisibility(e.target); }
     const legendClickHandler = (e) => {
@@ -17,6 +16,7 @@ function SbMCard({initRef}) {
     }
    // const colorPallete = ['#35f2ed', '#37bad6', '#5a5d87', '#373c67', '#2b2954', '#1DE2BE', '#1DC7E5'];
     const customizeText = (arg) => { return `${arg.percentText}`; }
+    if(contentWidth <= 575 && !isEmpty(initRef.current)){ initRef.current.instance.render();}
 
     return (
             <Card className='Sbm-card h-100'>
@@ -34,5 +34,5 @@ function SbMCard({initRef}) {
             </Card>  
     )
 }
-
-export default React.memo(SbMCard)
+const areEqual = (prevProps, nextProps) => true;
+export default React.memo(SbMCard, areEqual)

@@ -126,7 +126,7 @@ const GridView = ({location}) => {
     };
 
     const changeStateSelectionChange =  (e) => {
-        var key = e.selectedRowKeys;
+        //var key = e.selectedRowKeys;
         var grid = e.component;
         var groupedColumnNames = getGroupedColumns(grid);
         var instanceGrouped = checkBoxGrouped;
