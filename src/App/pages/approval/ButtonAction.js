@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from 'devextreme-react/button';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchDataByToken, fetchDataByUser, updateDetail } from '../../../store/actions/apvAction';
+import { fetchDataByToken, fetchDataByUser, updateDetail, sendMail } from '../../../store/actions/apvAction';
 import * as actionTypes from '../../../store/types/apvType';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import withReactContent from 'sweetalert2-react-content';
 
 function ButtonAction() {
@@ -14,11 +15,12 @@ function ButtonAction() {
      const modeValue = useSelector(state => state.apv.toolModeValue);
      const dtHeader = useSelector(state => state.apv.dsHeader);
      const sDetail = useSelector(state => state.apv.selectedDetail);
+     const user =  useSelector(state => state.auth.authenticatedUser);
 
     const updateGrid = (appaction) =>{
-             dispatch(updateDetail(sDetail, appaction))
+            dispatch(updateDetail(sDetail, appaction))
             .then(r => {
-              if(r.data === true){
+             if(r.data === true){
                     let msg = appaction.status === actionTypes.APPROVE_STATUS ? 'APPROVED' : 'UNAPPROVED';
                     let title = appaction.status === actionTypes.APPROVE_STATUS ? 'Approved' : 'Unapproved';
                     if(appaction.status === actionTypes.SUBMIT_STATUS || appaction.status ===  actionTypes.APPROVE_STATUS){
@@ -35,6 +37,7 @@ function ButtonAction() {
                                 else dispatch(fetchDataByUser(modeValue));
                             },
                             onClose: () =>{ 
+                              //  AskMail();
                                 dispatch({ type: actionTypes.CHANGE_SELECTED_DETAIL, payload :{ selectedDetail: []}});
                              }
                         });
@@ -52,6 +55,7 @@ function ButtonAction() {
                                 else dispatch(fetchDataByUser(modeValue));
                             },
                             onClose: () => {
+                              //  AskMail();
                                 dispatch({ type: actionTypes.CHANGE_SELECTED_DETAIL, payload :{ selectedDetail: []}});
                             }
                         });
@@ -90,6 +94,7 @@ function ButtonAction() {
         updateGrid(appaction);
     }
 
+
     const ButtonsReject = () => {
         if(modeValue === actionTypes.SUBMIT_STATUS){
             return(
@@ -108,6 +113,28 @@ function ButtonAction() {
             return null;
         }
     }
+
+
+const AskMail = () => {
+    MySwal.fire({
+        icon:'question',
+        title:'Test Only !!',
+        html: 'Are you sure want to send email to submitter ?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            debugger;
+            let by = user.name;
+            let at = moment().format('MMMM Do YYYY');
+            dispatch(sendMail(sDetail, by, at)).then( e => {
+                Swal.fire( '', 'Your mail has been sent.', 'success' );
+            })
+        }
+     });
+}
 
     return (
         <>
