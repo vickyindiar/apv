@@ -1,25 +1,26 @@
 import Axios from 'axios';
 import * as actionTypes from '../types/apvType';
 import config from '../../config';
-import { mailTemplate } from '../../App/pages/approval/EmailTemplate'
+import { mailTemplate } from '../../App/pages/approval/EmailTemplate';
+import Cookies from 'js-cookie';
 
 
 let axiosConfig = {
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-        agno: localStorage.getItem('_agno'),
-        divno: localStorage.getItem('_divno'),
-        dby: localStorage.getItem('_dby'),
+        Authorization: `Bearer ${Cookies.get('_sid')}`,
+        agno: Cookies.get('_agno'),
+        divno: Cookies.get('_divno'),
+        dby: Cookies.get('_dby'),
     }
  }
 
  export const SetTrigger = () => dispatch => {
      let  axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
      }
 
@@ -34,29 +35,37 @@ let axiosConfig = {
 export const fetchDataByToken = (pToken, mode) =>  dispatch => {
  axiosConfig = {
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-        agno: localStorage.getItem('_agno'),
-        divno: localStorage.getItem('_divno'),
-        dby: localStorage.getItem('_dby'),
+        Authorization: `Bearer ${Cookies.get('_sid')}`,
+        agno: Cookies.get('_agno'),
+        divno: Cookies.get('_divno'),
+        dby: Cookies.get('_dby'),
     }
  }
-  return Axios.post(`${config.apiURL}appheaders/getbytoken`, { idnum :  localStorage.getItem('_uid') , tid : pToken }, axiosConfig)
+  return Axios.post(`${config.apiURL}appheaders/getbytoken`, { idnum :  Cookies.get('_uid') , tid : pToken }, axiosConfig)
     .then((header) => { 
-        let body = { apvno: header.data[0].apvno ,  status: mode, type: header.data[0].type  };
-        dispatch({type: actionTypes.FETCH_HEADER, payload: { dsHeader: header.data } });
-
-     return  Axios.post(`${config.apiURL}appdetails/getrp`, body , axiosConfig)
-        .then((detail) => {
-            if(detail.data.length > 0){
-                  dispatch({type: actionTypes.FETCH_DETAIL, payload: { dsDetail: detail.data } });
-             }  
-             else{
-                dispatch({type: actionTypes.FETCH_DETAIL, payload: { dsDetail: [] } });
-            }
-        })
-        .catch((e) => {
-                console.log(e);
-        }); 
+        if(header.data.hasOwnProperty('stat') && header.data.stat !== 'true'){
+            dispatch({ type: actionTypes.DIFF_DBYEAR });
+            return header.data;
+        }
+        else{
+            let body = { apvno: header.data[0].apvno ,  status: mode, type: header.data[0].type  };
+            dispatch({type: actionTypes.FETCH_HEADER, payload: { dsHeader: header.data } });
+    
+            return  Axios.post(`${config.apiURL}appdetails/getrp`, body , axiosConfig)
+                .then((detail) => {
+                    console.log(detail.data);
+                    if(detail.data.length > 0){
+                        dispatch({type: actionTypes.FETCH_DETAIL, payload: { dsDetail: detail.data } });
+                    }  
+                    else{
+                        dispatch({type: actionTypes.FETCH_DETAIL, payload: { dsDetail: [] } });
+                    }
+                    return {stat: true}
+                })
+                .catch((e) => {
+                        console.log(e);
+                }); 
+        }
     })
     .catch(e =>{
         console.log(e);
@@ -66,17 +75,17 @@ export const fetchDataByToken = (pToken, mode) =>  dispatch => {
 export const fetchDataByUser = (mode) => (dispatch) => {
     axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
     }
-  return Axios.post(`${config.apiURL}appheaders/getbyspv`, { id : localStorage.getItem('_uid') }, axiosConfig)
+  return Axios.post(`${config.apiURL}appheaders/getbyspv`, { id : Cookies.get('_uid') }, axiosConfig)
             .then((header) => {
                 let apvno = [];
                 header.data.map(e => { apvno.push(e.apvno) });
-                let body = { apvno,  status: mode, id: localStorage.getItem('_uid') };
+                let body = { apvno,  status: mode, id: Cookies.get('_uid') };
                 dispatch({type: actionTypes.FETCH_HEADER, payload: { dsHeader: header.data } });
 
               return  Axios.post(`${config.apiURL}appdetails/getrpmultiple`, body , axiosConfig)
@@ -101,10 +110,10 @@ export const fetchDataByUser = (mode) => (dispatch) => {
 export const updateDetail = (detail, action) => (dispatch, getstate) => {
         axiosConfig = {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-                agno: localStorage.getItem('_agno'),
-                divno: localStorage.getItem('_divno'),
-                dby: localStorage.getItem('_dby'),
+                Authorization: `Bearer ${Cookies.get('_sid')}`,
+                agno: Cookies.get('_agno'),
+                divno: Cookies.get('_divno'),
+                dby: Cookies.get('_dby'),
             }
         }
         return Axios.post(`${config.apiURL}appdetails/updatemultiple`, {detail, action} , axiosConfig)
@@ -211,10 +220,10 @@ export const sendMail = (detail, by, at ) => {
 
     axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
     }
     let body = {'detail' : generateData(detail, by, at)}
@@ -227,7 +236,6 @@ export const sendMail = (detail, by, at ) => {
     });
 
 }
-
 
 export const changePreview = (type, value) => ({
     type: actionTypes.CHANGE_CELL_PREVIEW,

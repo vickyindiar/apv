@@ -13,7 +13,7 @@ import isEmpty from '../../../store/helper/isEmpty';
 import moment from 'moment';
 import { fetchDataSxP, fetchDataMMB,  fetchDataMb, fetchDataSbM } from '../../../store/actions/dashAction';
 import { getFromLS, saveToLS } from '../../../store/helper/localStorage';
-import LockButton from './LockButton';
+//import LockButton from './LockButton';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -22,6 +22,7 @@ function Dashboard() {
   const dashLayout = useSelector(state => state.dash.dashLayout);
   const dashItems = useSelector(state => state.dash.dashItems);
   const dashLocked = useSelector(state => state.dash.dashLocked);
+  const user = useSelector(state => state.auth.authenticatedUser);
   const refSxp = React.createRef();
   const refSbm = React.createRef();
   const refMmb = React.createRef();
@@ -35,7 +36,7 @@ function Dashboard() {
     let end, endYear;
     let now = new Date();
     let cur = getFromLS('rgl-8', 'mmbPeriod');
-    let cD = new Date('20' + localStorage.getItem('_dby'), now.getMonth(), 1);
+    let cD = new Date('20' + user.dby, now.getMonth(), 1);
 
     if(cur){
         start = moment(cur.start).format('YYYY-MM-DD');

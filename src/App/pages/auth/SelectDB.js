@@ -5,6 +5,7 @@ import { getDBList, changeDb, changeDby, DoSubmitDB} from '../../../store/action
 import isEmpty from '../../../store/helper/isEmpty';
 import { Button } from 'devextreme-react/button';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'js-cookie';
 // import { askForPermissioToReceiveNotifications } from '../../../store/actions/ntfAction';
 
 function SelectDB() {
@@ -20,7 +21,7 @@ function SelectDB() {
     const onChangeDB = (e) => { dispatch(changeDb(e.selectedItem)); } 
 
     useEffect(() => {
-        if(isEmpty(localStorage.getItem('_uid'))){
+        if(isEmpty(Cookies.get('_uid'))){
             history.push('/login');
         }
         else{

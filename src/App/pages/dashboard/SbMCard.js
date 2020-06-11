@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Card } from 'react-bootstrap';
 import PieChart, { Series, Label, Connector } from 'devextreme-react/pie-chart';

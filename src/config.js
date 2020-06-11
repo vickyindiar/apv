@@ -1,7 +1,8 @@
 import * as actionTypes from '../src/store/types/apvType';
 
 const isLocalhost = Boolean(
-    window.location.hostname === 'localhost' ||
+     window.location.hostname === 'localhost' ||
+     window.location.hostname.includes('testapp') ||
       // [::1] is the IPv6 localhost address.
       window.location.hostname === '[::1]' ||
       // 127.0.0.1/8 is considered localhost for IPv4.
@@ -36,10 +37,11 @@ export default {
     layout6BackSize : '', // used only for pre-layout = layout-6
     
     
-    baseURL:  isLocalhost ? 'http://localhost:8080/' : 'ISAPI.dll/',
-    apiURL: isLocalhost ? 'http://localhost:8080/api/': 'ISAPI.dll/api/',
-    // baseURL: 'ISAPI.dll/',
-    // apiURL: 'ISAPI.dll/api/',
+    //baseURL:  isLocalhost ? 'http://localhost:8080/' : 'ISAPI.dll/',
+    //apiURL: isLocalhost ? 'http://localhost:8080/api/': 'ISAPI.dll/api/',
+    baseURL:  isLocalhost ? 'http://www.testapp.com:8080/' : 'ISAPI.dll/',
+    apiURL: isLocalhost ? 'http://www.testapp.com:8080/api/': 'ISAPI.dll/api/',
+
     dsToolMode : [
         {text: 'APPROVAL', value: actionTypes.SUBMIT_STATUS },
         {text: 'UNAPPROVAL', value:actionTypes.APPROVE_STATUS }

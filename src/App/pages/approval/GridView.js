@@ -3,11 +3,15 @@ import React,  {useState, useEffect, useRef}  from 'react';
 import DataGrid, { Column, Selection, Grouping, GroupPanel, Lookup, ColumnFixing, SearchPanel, Scrolling, LoadPanel } from 'devextreme-react/data-grid';
 import { useDispatch, useSelector, batch } from "react-redux";
 import { fetchDataByToken, fetchDataByUser, changePreview, showLoadPanel } from '../../../store/actions/apvAction';
+import { ChangeBDYear } from '../../../store/actions/authAction';
 import config  from '../../../config';
 import * as actionTypes from '../../../store/types/apvType';
 import isEmpty from '../../../store/helper/isEmpty';
 import GroupCellComponent from './GroupCellComponent';
 import { synchronizeCheckBoxes, getGroupedColumns } from './GroupSelectionHelper';
+import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 const PriviewDetail = React.lazy(() => import(/* webpackChunkName: "preview-detail" */'./PreviewDetail'));
 
@@ -15,33 +19,42 @@ const PriviewDetail = React.lazy(() => import(/* webpackChunkName: "preview-deta
 const GridView = ({location}) => {
     const [selectionMode, setSelectionMode] = useState('multiple');
     const [expandMode, setExpandMode] = useState(true);
+    const MySwal = withReactContent(Swal);
     const dsDetail = useSelector(state => state.apv.dsDetail);
     const toolModeValue = useSelector(state => state.apv.toolModeValue);
     const toolShowValue = useSelector(state => state.apv.toolShowValue);
     const isLoad = useSelector(state => state.apv.showLoadPanel);
+    const isDiffDBYear = useSelector(state=> state.apv.isDiffDBYear);
     const thisGrid = useRef(null);  
     const checkBoxGrouped = useRef([]);
     const dispatch = useDispatch();
     const UrlParam = new URLSearchParams(location.search);
     let pToken = UrlParam.get('tid');
 
+
     useEffect(() => {
+        console.log('show grid');
         if(!isEmpty(pToken) && toolShowValue === '2'){
             batch(() =>{
                 dispatch(showLoadPanel(true));
                 dispatch({ type: actionTypes.CHANGE_TOKEN,  payload: { tokenGrid: pToken }});
                 dispatch(fetchDataByToken(pToken, toolModeValue))
                 .then((e) => {
-                   if(!dsDetail){ dispatch(showLoadPanel(false)); }
-                    if(toolModeValue === actionTypes.APPROVE_STATUS){
-                        if(!thisGrid.current) return;
-                        thisGrid.current.instance.columnOption('astatusop', 'visible', true);
-                        thisGrid.current.instance.columnOption('astatusdt', 'visible', true);
+                    if( e.stat === 'false'){
+                        onDiffDBYear(e.message, pToken); // if use token link and have different year token and year login  
                     }
                     else{
-                        if(!thisGrid.current) return;
-                       thisGrid.current.instance.columnOption('astatusop', 'visible', false);
-                       thisGrid.current.instance.columnOption('astatusdt', 'visible', false);
+                        if(!dsDetail){ dispatch(showLoadPanel(false)); }
+                        if(toolModeValue === actionTypes.APPROVE_STATUS){
+                            if(!thisGrid.current) return;
+                            thisGrid.current.instance.columnOption('astatusop', 'visible', true);
+                            thisGrid.current.instance.columnOption('astatusdt', 'visible', true);
+                        }
+                        else{
+                            if(!thisGrid.current) return;
+                           thisGrid.current.instance.columnOption('astatusop', 'visible', false);
+                           thisGrid.current.instance.columnOption('astatusdt', 'visible', false);
+                        }
                     }
                 });
             });
@@ -67,6 +80,38 @@ const GridView = ({location}) => {
         }  
     },[toolModeValue, toolShowValue, thisGrid]);
 
+
+
+    const onDiffDBYear = (msg, ptoken) => {
+        MySwal.fire({ icon: 'warning', html: msg, showConfirmButton: true, showCancelButton: true, focusConfirm: false, })
+        .then((result) => {
+            if (result) {
+                dispatch(ChangeBDYear(ptoken))
+                .then(r => {
+                    if(!isEmpty(pToken) && toolShowValue === '2'){
+                        batch(() =>{
+                            dispatch(showLoadPanel(true));
+                            dispatch(fetchDataByToken(pToken, toolModeValue))
+                            .then((e) => {
+                                if(!dsDetail){ dispatch(showLoadPanel(false)); }
+                                if(toolModeValue === actionTypes.APPROVE_STATUS){
+                                    if(!thisGrid.current) return;
+                                    thisGrid.current.instance.columnOption('astatusop', 'visible', true);
+                                    thisGrid.current.instance.columnOption('astatusdt', 'visible', true);
+                                }
+                                else{
+                                    if(!thisGrid.current) return;
+                                    thisGrid.current.instance.columnOption('astatusop', 'visible', false);
+                                    thisGrid.current.instance.columnOption('astatusdt', 'visible', false);
+                                }
+                            });
+                        });
+                    }
+                })
+            }
+         });
+
+    }
 
     const onToolbarPreparing = (e) => {
         var dataGrid = e.component;
@@ -153,10 +198,10 @@ const GridView = ({location}) => {
     }
 
     const onCellTemplate = (container, options) => {
-        let agno = localStorage.getItem('_agno');
-        let divno =  localStorage.getItem('_divno');
-        let dby =  localStorage.getItem('_dby');
-        let sid =  localStorage.getItem('_sid');
+        let agno = Cookies.get('_agno');
+        let divno =  Cookies.get('_divno');
+        let dby =  Cookies.get('_dby');
+        let sid =  Cookies.get('_sid');
        
         let a = document.createElement('a');
         a.text = options.data.evdno;

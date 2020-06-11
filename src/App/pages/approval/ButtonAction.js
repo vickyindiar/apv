@@ -69,13 +69,13 @@ function ButtonAction() {
         let field = Object.keys(dtHeader[0])
                     // eslint-disable-next-line array-callback-return
                     .find(key => {
-                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === localStorage.getItem('_uid')) {
+                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === user.idnum) {
                             return true;
                         }
                     });  
         appaction.status = modeValue === actionTypes.SUBMIT_STATUS ? actionTypes.APPROVE_STATUS : actionTypes.SUBMIT_STATUS;
         appaction.field = field.toUpperCase();
-        appaction.by =  localStorage.getItem('_uid'); 
+        appaction.by =  user.idnum;
         updateGrid(appaction);
     }
 
@@ -84,13 +84,13 @@ function ButtonAction() {
         let field = Object.keys(dtHeader[0])
                     // eslint-disable-next-line array-callback-return
                     .find(key => {
-                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === localStorage.getItem('_uid')) {
+                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === user.idnum) {
                             return true;
                         }
                     });  
         appaction.status = actionTypes.REJECT_STATUS;
         appaction.field = field.toUpperCase();
-        appaction.by =  localStorage.getItem('_uid'); 
+        appaction.by =  user.idnum;
         updateGrid(appaction);
     }
 
@@ -126,7 +126,6 @@ const AskMail = () => {
         confirmButtonText: 'Yes'
     }).then((result) => {
         if (result.value) {
-            debugger;
             let by = user.name;
             let at = moment().format('MMMM Do YYYY');
             dispatch(sendMail(sDetail, by, at)).then( e => {

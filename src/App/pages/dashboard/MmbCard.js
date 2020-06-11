@@ -7,7 +7,6 @@ import PieChart, { Series, Label, Connector } from 'devextreme-react/pie-chart';
 import config from '../../../config';
 import { saveToLS } from '../../../store/helper/localStorage';
 import moment from 'moment';
-import { useEffect } from 'react';
 import { isEmpty } from 'react-redux-firebase';
 
 
@@ -15,6 +14,7 @@ function MmbCard({initRef}) {
     const dispatch = useDispatch();
     const dsMmb = useSelector(state => state.dash.dsMmb);
     const mmbPeriod = useSelector(state => state.dash.mmbPeriod);
+    const user = useSelector(state => state.auth.authenticatedUser);
     const contentWidth = document.getElementById('root').clientWidth;
     const toggleVisibility = (item) => {
          item.isVisible() ? item.hide() : item.show(); 
@@ -29,7 +29,7 @@ function MmbCard({initRef}) {
     }
 
     const onChangePeriod = (e) => {
-        let cD = new Date('20' + localStorage.getItem('_dby'), e.value, 1);
+        let cD = new Date('20' + user.dby, e.value, 1);
         let start = moment(cD).startOf('month').format('YYYY-MM-DD');
         let end = moment(cD).endOf('month').format('YYYY-MM-DD');
         let now = new Date();

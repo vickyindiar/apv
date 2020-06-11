@@ -1,7 +1,8 @@
 import Axios from 'axios';
 import * as actionTypes from '../types/dashType';
 import config from '../../config';
-import { isEmpty } from 'react-redux-firebase';
+import isEmpty from '../helper/isEmpty';
+import Cookies from 'js-cookie';
 
 
 export const updateDashLayout = ({layouts}) => dispatch => {
@@ -23,10 +24,10 @@ export const updatePeriodMMB = (value) => dispatch => {
 export const fetchDataMMB = (start, end) => dispatch => { // Monthly media billing
     let axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
      }
     return Axios.post(`${config.apiURL}dash/mmb`,{begin:start, end:end }, axiosConfig)
@@ -41,10 +42,10 @@ export const fetchDataMMB = (start, end) => dispatch => { // Monthly media billi
 export const fetchDataMb = (start, end) => dispatch => { //Sales vs Payment
     let axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
      }
 
@@ -127,10 +128,10 @@ export const fetchDataMb = (start, end) => dispatch => { //Sales vs Payment
 export const fetchDataSxP = (start, end) => dispatch => { //Sales vs Payment
     let axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
      }
     return Axios.post(`${config.apiURL}dash/sxp`, { begin:start, end:end }, axiosConfig)
@@ -145,10 +146,10 @@ export const fetchDataSxP = (start, end) => dispatch => { //Sales vs Payment
 export const fetchDataSbM = () => dispatch => { //Sales by Media
     let axiosConfig = {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('_sid')}`,
-            agno: localStorage.getItem('_agno'),
-            divno: localStorage.getItem('_divno'),
-            dby: localStorage.getItem('_dby'),
+            Authorization: `Bearer ${Cookies.get('_sid')}`,
+            agno: Cookies.get('_agno'),
+            divno: Cookies.get('_divno'),
+            dby: Cookies.get('_dby'),
         }
      }
     return Axios.get(`${config.apiURL}dash/sbm`, axiosConfig)

@@ -23,14 +23,11 @@ function NavRight() {
     const history = useHistory();
 
     const rtlLayout = useSelector(state => state.layout.rtlLayout);
-    const userName = useSelector(state=> state.auth.authenticatedUser.name);
-    const userMail = useSelector(state => state.auth.authenticatedUser.email);
+    const user = useSelector(state=> state.auth.authenticatedUser);
     const listOpen = useSelector(state => state.ntf.toogleList);
-    const selectedDB = localStorage.getItem('_agno');
     var toDay = new Date();
-    const selectedDBY = toDay.getFullYear().toString().substring(0, 2) + localStorage.getItem('_dby');
+    const selectedDBY = toDay.getFullYear().toString().substring(0, 2) + user.dby;
     const onLogout = () =>{ dispatch(DoLogOut(history)); }
-
     const dsTopNotification = useSelector(state => state.ntf.dsTopNotification);
     useEffect(() => {
         dispatch(getNewNotification());
@@ -58,7 +55,7 @@ function NavRight() {
                     <Dropdown.Menu alignRight className="profile-notification">
                         <div className="pro-head">
                             <img src={Avatar1} className="img-radius" alt="User Profile"/>
-                            <span>{userName}</span>
+                            <span>{user.name}</span>
                             <a href={DEMO.BLANK_LINK} className="dud-logout" onClick={onLogout} title="Logout">
                                 <i className="feather icon-log-out"/>
                             </a>
@@ -66,9 +63,9 @@ function NavRight() {
                         <ul className="pro-body">
                             <li>
                                 <a href={DEMO.BLANK_LINK} className="dropdown-item">
-                                <i className="feather icon-mail"/> {userMail} </a>
+                                <i className="feather icon-mail"/> {user.email} </a>
                             </li>
-                            <li><a href={DEMO.BLANK_LINK} className="dropdown-item"><i className="fa fa-database"/> { selectedDB } </a></li>
+                            <li><a href={DEMO.BLANK_LINK} className="dropdown-item"><i className="fa fa-database"/> { user.agn } </a></li>
                             <li><a href={DEMO.BLANK_LINK} className="dropdown-item"><i className="feather icon-calendar"/> { selectedDBY }</a></li>
                             {/* <li><a href={DEMO.BLANK_LINK} className="dropdown-item displayChatbox" onClick={() => {setListOpen(true);}} ><i className="feather icon-mail"/> My Messages</a></li> */}
 

@@ -17,6 +17,7 @@ function MobileBtnAppr() {
     const modeValue = useSelector(state => state.apv.toolModeValue);
     const dtHeader = useSelector(state => state.apv.dsHeader);
     const sDetail = useSelector(state => state.apv.selectedDetail);
+    const user =  useSelector(state => state.auth.authenticatedUser);
 
     const updateGrid = (appaction) =>{
              dispatch(updateDetail(sDetail, appaction))
@@ -67,13 +68,13 @@ function MobileBtnAppr() {
         let appaction = {};
         let field = Object.keys(dtHeader[0])
                     .find(key => {
-                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === localStorage.getItem('_uid')) {
+                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === user.idnum) {
                             return true;
                         }
                     });  
         appaction.status = modeValue === actionTypes.SUBMIT_STATUS ? actionTypes.APPROVE_STATUS : actionTypes.SUBMIT_STATUS;
         appaction.field = field.toUpperCase();
-        appaction.by =  localStorage.getItem('_uid'); 
+        appaction.by =   user.idnum;
         updateGrid(appaction);
     }
 
@@ -81,13 +82,13 @@ function MobileBtnAppr() {
         let appaction = {};
         let field = Object.keys(dtHeader[0])
                     .find(key => {
-                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === localStorage.getItem('_uid')) {
+                        if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] ===  user.idnum) {
                             return true;
                         }
                     });  
         appaction.status = actionTypes.REJECT_STATUS;
         appaction.field = field.toUpperCase();
-        appaction.by =  localStorage.getItem('_uid'); 
+        appaction.by =   user.idnum; 
         updateGrid(appaction);
     }
 

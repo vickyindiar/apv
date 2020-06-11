@@ -15,6 +15,7 @@ const initialState = {
     dsDetail: null,
     selectedDetail: [],
     customSelectionFlag: false, //for grouping selection
+    isDiffDBYear: false
 
 }
 
@@ -42,6 +43,8 @@ export default (state = initialState, { type, payload }) => {
         return {  ...state, ...payload }
     case ActionTypes.SHOW_LOADPANEL:
         return {  ...state, showLoadPanel: payload.value }
+    case ActionTypes.DIFF_DBYEAR:
+        return { ...state, isDiffDBYear: !state.isDiffDBYear }
     default:
         return state
     }

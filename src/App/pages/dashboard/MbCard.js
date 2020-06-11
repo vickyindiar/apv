@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import { Card } from 'react-bootstrap';
 import { Chart, Series, CommonSeriesSettings, Label, Format, Legend, ZoomAndPan, ScrollBar, ArgumentAxis } from 'devextreme-react/chart';
