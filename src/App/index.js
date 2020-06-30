@@ -36,6 +36,7 @@ const AdminLayout = Loadable({
         if (!isAuthenticated) {
             dispatch(AuthorizationCheck(history, location));
         }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

@@ -28,7 +28,7 @@ function Dashboard() {
   const refMmb = React.createRef();
   const refMb = React.createRef();
   const refYb = React.createRef();
-  const contentWidth = document.getElementById('root').clientWidth;
+  //const contentWidth = document.getElementById('root').clientWidth;
 
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function Dashboard() {
     dispatch(fetchDataSbM());
     dispatch(fetchDataMMB(start, end));
     dispatch(fetchDataSxP(startYear, endYear)); 
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let ulClass = ['layout'];

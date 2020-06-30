@@ -7,3 +7,4 @@ export const CHANGE_DATA_MB = "CHANGE_DATA_MB";
 export const CHANGE_DATA_YB = "CHANGE_DATA_YB";
 export const CHANGE_DATA_SXP = "CHANGE_DATA_SXP";
 export const CHANGE_DATA_SBM = "CHANGE_DATA_SBM";
+export const CLEAR_DASH = 'CLEAR_AUTH';

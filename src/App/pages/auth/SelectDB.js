@@ -21,12 +21,15 @@ function SelectDB() {
     const onChangeDB = (e) => { dispatch(changeDb(e.selectedItem)); } 
 
     useEffect(() => {
-        if(isEmpty(Cookies.get('_uid'))){
+        let uid = Cookies.get('_uid');
+        let isUid = isEmpty(uid);
+        if(isUid){
             history.push('/login');
         }
         else{
             dispatch(getDBList());
         }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onSubmitSelectDB = () => {

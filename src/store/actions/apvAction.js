@@ -53,7 +53,6 @@ export const fetchDataByToken = (pToken, mode) =>  dispatch => {
     
             return  Axios.post(`${config.apiURL}appdetails/getrp`, body , axiosConfig)
                 .then((detail) => {
-                    console.log(detail.data);
                     if(detail.data.length > 0){
                         dispatch({type: actionTypes.FETCH_DETAIL, payload: { dsDetail: detail.data } });
                     }  
@@ -84,6 +83,7 @@ export const fetchDataByUser = (mode) => (dispatch) => {
   return Axios.post(`${config.apiURL}appheaders/getbyspv`, { id : Cookies.get('_uid') }, axiosConfig)
             .then((header) => {
                 let apvno = [];
+                // eslint-disable-next-line array-callback-return
                 header.data.map(e => { apvno.push(e.apvno) });
                 let body = { apvno,  status: mode, id: Cookies.get('_uid') };
                 dispatch({type: actionTypes.FETCH_HEADER, payload: { dsHeader: header.data } });
@@ -206,6 +206,7 @@ export const sendMail = (detail, by, at ) => {
         let result = [];
         let opr = [...new Set(detail.map(v => v.opr))]; //v.opremail
 
+        // eslint-disable-next-line array-callback-return
         opr.map(v => {
             let record = {};
             let filtered = {};

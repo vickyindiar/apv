@@ -168,6 +168,9 @@
     @media screen and (max-width: 960px) {
         width: 30% !important;
     }
+    @media only screen and (max-width: 414px) {
+        width: 100% !important;
+    }
 }
 .card-setting-dashboard .dx-field-value{
     width : 5% !important;

@@ -84,6 +84,16 @@ export default (state = initialState, {type, payload}) => {
                 ...state,
                 dsSbM: payload
             }
+        case actionTypes.CLEAR_DASH:
+            return  {
+               ...state,
+               dsMmb: [],
+               dsMb: [],
+               dsYb: [],
+               dsSxP: [],
+               dsSbM: [],
+           }
+        // eslint-disable-next-line no-fallthrough
         default:
             return { ...state }
     }

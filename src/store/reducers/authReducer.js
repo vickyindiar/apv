@@ -88,6 +88,9 @@ export default (state = initialState, {type, payload}) => {
                 notifMsg: payload.notifMsg,
                 notifType: payload.notifType
             }
+        case actionType.CLEAR_AUTH:
+            state = initialState
+        // eslint-disable-next-line no-fallthrough
         default:
         return {...state}
     }

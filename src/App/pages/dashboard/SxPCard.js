@@ -9,7 +9,6 @@ const SxPCard = ({initRef}) => {
     const dsSxP = useSelector(state => state.dash.dsSxP);
     const contentWidth = document.getElementById('root').clientWidth;
     if(contentWidth <= 575 && !isEmpty(initRef.current)){ initRef.current.instance.render();}
-    console.log('render sxp')
     return (
         <Card className='Recent-Users h-100'>
             <Card.Header>

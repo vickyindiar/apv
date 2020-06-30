@@ -1,6 +1,6 @@
 
 import React,  {useState, useEffect, useRef}  from 'react';
-import DataGrid, { Column, Selection, Grouping, GroupPanel, Lookup, ColumnFixing, SearchPanel, Scrolling, LoadPanel } from 'devextreme-react/data-grid';
+import DataGrid, { Column, Selection, Grouping, GroupPanel, Lookup, ColumnFixing, SearchPanel, Scrolling, LoadPanel,  Summary, GroupItem, SortByGroupSummaryInfo  } from 'devextreme-react/data-grid';
 import { useDispatch, useSelector, batch } from "react-redux";
 import { fetchDataByToken, fetchDataByUser, changePreview, showLoadPanel } from '../../../store/actions/apvAction';
 import { ChangeBDYear } from '../../../store/actions/authAction';
@@ -24,7 +24,7 @@ const GridView = ({location}) => {
     const toolModeValue = useSelector(state => state.apv.toolModeValue);
     const toolShowValue = useSelector(state => state.apv.toolShowValue);
     const isLoad = useSelector(state => state.apv.showLoadPanel);
-    const isDiffDBYear = useSelector(state=> state.apv.isDiffDBYear);
+    const user = useSelector(state => state.auth.authenticatedUser)
     const thisGrid = useRef(null);  
     const checkBoxGrouped = useRef([]);
     const dispatch = useDispatch();
@@ -33,7 +33,6 @@ const GridView = ({location}) => {
 
 
     useEffect(() => {
-        console.log('show grid');
         if(!isEmpty(pToken) && toolShowValue === '2'){
             batch(() =>{
                 dispatch(showLoadPanel(true));
@@ -78,6 +77,7 @@ const GridView = ({location}) => {
                 });   
             })
         }  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[toolModeValue, toolShowValue, thisGrid]);
 
 
@@ -85,8 +85,8 @@ const GridView = ({location}) => {
     const onDiffDBYear = (msg, ptoken) => {
         MySwal.fire({ icon: 'warning', html: msg, showConfirmButton: true, showCancelButton: true, focusConfirm: false, })
         .then((result) => {
-            if (result) {
-                dispatch(ChangeBDYear(ptoken))
+            if (result.value) {
+                dispatch(ChangeBDYear(user, ptoken))
                 .then(r => {
                     if(!isEmpty(pToken) && toolShowValue === '2'){
                         batch(() =>{
@@ -243,13 +243,14 @@ const GridView = ({location}) => {
                     columnAutoWidth={true}
                     height= {"100%"}
                     // width= {"100%"}
-
+                    noDataText={isLoad ? '' : 'No Data !'}
                     onToolbarPreparing={ onToolbarPreparing }
                     showBorders={false}
                     showColumnLines= {false}
                     showRowLines={true}
                     rowAlternationEnabled={true}
                     onSelectionChanged= {  changeStateSelectionChange  }  
+                    allowColumnResizing={true}
                  > 
 
                 <Scrolling mode={"virtual"} />
@@ -285,8 +286,8 @@ const GridView = ({location}) => {
             
                 <Column dataField="period" caption="PERIOD" dataType="date" format="MMM yyyy" width={100} cssClass="row-vertical-align" />
                 <Column dataField="remark" caption="REMARK" width={220} cssClass="row-vertical-align" />
-                <Column dataField="vatno" caption="VATNO" width={120} cssClass="row-vertical-align" />
-                <Column dataField="vatdt" caption="VATDATE" dataType="date" format="dd/MM/yyyy" width={100} cssClass="row-vertical-align" />
+                <Column dataField="vatno" caption="VATNO" width={120} visible={false} cssClass="row-vertical-align" />
+                <Column dataField="vatdt" caption="VATDATE" dataType="date" visible={false} format="dd/MM/yyyy" width={100} cssClass="row-vertical-align" />
                 <Column dataField="vat" caption="VAT" dataType="number" format={{type:"fixedPoint", precision:2}} width={120} cssClass="row-vertical-align" />
                 <Column dataField="oprnm" caption="OPERATOR" visible={false} cssClass="row-vertical-align" alignment="center" allowSorting={false} allowGrouping={false}/>
             
@@ -312,6 +313,20 @@ const GridView = ({location}) => {
                 </Column> */}
                 {/* <Column dataField="astatusdt" visible={(toolModeValue === actionTypes.APPROVE_STATUS)} caption="ADATE" dataType="date" format="dd/MM/yyyy" width={100} cssClass="row-vertical-align" />
                 <Column dataField="astatusop" visible={(toolModeValue === actionTypes.APPROVE_STATUS)} caption="ASTATUSOP" width={120} cssClass="row-vertical-align" />  */}
+                 <Summary>
+                    <GroupItem
+                    column="amount"
+                    summaryType="sum"
+                    valueFormat= {{type:"fixedPoint", precision:2}}
+                    showInGroupFooter={false}
+                    alignByColumn={true} 
+                    skipEmptyValues={true}
+                    displayFormat= "{0}"
+                    />
+                </Summary>
+                <SortByGroupSummaryInfo summaryItem="count" />
+            
+            
             </DataGrid>  
              
         </>

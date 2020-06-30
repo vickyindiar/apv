@@ -18,13 +18,13 @@ import dashReducer from './store/reducers/dashReducer';
 // import {reactReduxFirebase, getFirebase} from 'react-redux-firebase';
 // import { initFirebase } from './store/actions/ntfAction';
 
-const reducers = combineReducers({
+const reducers = combineReducers({ //todo
     layout: layoutReducer, 
     auth: authReducer, 
     apv: apvReducer,
     ntf: ntfReducer,
     dash: dashReducer
-}); //todo
+}); 
 //const store = createStore(reducers, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 
 const store = createStore(reducers,

@@ -20,3 +20,6 @@ export const SUBMIT_STATUS = 'SUBMIT_STATUS';
 export const REJECT_STATUS = 'REJECT_STATUS';
 export const APPROVE_STATUS = 'APPROVE_STATUS';
 
+export const CLEAR_APV = 'CLEAR_APV';
+
+

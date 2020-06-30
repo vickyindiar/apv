@@ -1,4 +1,7 @@
 import * as actionType from '../types/authType';
+
+import * as apvType from '../types/apvType';
+
 import isEmpty from '../helper/isEmpty';
 import Axios from 'axios';
 import config from '../../config';
@@ -152,6 +155,7 @@ export const DoLogOut = (history) => dispatch => {
     setDefaultAuthToken(null);
 
     dispatch({ type:actionType.SET_AUTH_USER, payload:{ status: false, user: { }} });
+    dispatch({ type:apvType.CLEAR_APV });
     history.push('/login');
 }
 
@@ -190,7 +194,7 @@ export const SetupTokenData = (tokenid) => dispatch => {
     });
 }
 
-export const ChangeBDYear = (ptoken) => dispatch => {
+export const ChangeBDYear = (user, ptoken) => dispatch => {
     let sid    = Cookies.get('_sid');
     let dby    = Cookies.get('_dby');
     let agno   = Cookies.get('_agno');
@@ -202,6 +206,21 @@ export const ChangeBDYear = (ptoken) => dispatch => {
     }
     return Axios.post(`${config.apiURL}users/changedby`, {tid: ptoken}, axiosConfig)
         .then(r => {
+            debugger;
+            dispatch({ 
+                type:actionType.SET_AUTH_USER, 
+                payload:{ 
+                    status: true, 
+                    user: { 
+                        idnum: user.idnum, 
+                        name: user.name, 
+                        email: user.email,
+                        agn: user.agn,
+                        divn: user.divn,
+                        dby: r.data   
+                    }
+                }
+            });
             return r;
         })
 }

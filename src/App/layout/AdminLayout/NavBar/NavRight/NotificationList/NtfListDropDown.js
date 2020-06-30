@@ -34,6 +34,7 @@ function NtfListDropDown({dsList}) {
             return null
         }
         else{
+            // eslint-disable-next-line array-callback-return
             limitViewDsList.map((v, i) => {
                 let item = (
                     <li className="notification" key={i}>

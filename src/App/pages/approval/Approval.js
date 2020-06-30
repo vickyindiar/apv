@@ -36,6 +36,7 @@ function Approval({location}) {
               dispatch(changeTools({ showToolMode : false }));
             } 
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

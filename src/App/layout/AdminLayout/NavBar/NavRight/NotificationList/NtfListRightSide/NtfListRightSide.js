@@ -20,6 +20,7 @@ const NtfListRightSide = ({listOpen, closed}) => {
 
     useEffect(() => {
         dispatch(getAllNotification());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dsNtf]);
 
     const list = (dsNtf).map((f, i) => {

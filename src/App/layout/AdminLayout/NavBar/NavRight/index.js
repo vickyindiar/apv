@@ -31,6 +31,7 @@ function NavRight() {
     const dsTopNotification = useSelector(state => state.ntf.dsTopNotification);
     useEffect(() => {
         dispatch(getNewNotification());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <Aux>

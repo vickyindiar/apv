@@ -45,6 +45,9 @@ export default (state = initialState, { type, payload }) => {
         return {  ...state, showLoadPanel: payload.value }
     case ActionTypes.DIFF_DBYEAR:
         return { ...state, isDiffDBYear: !state.isDiffDBYear }
+    case ActionTypes.CLEAR_APV:
+        state = initialState
+    // eslint-disable-next-line no-fallthrough
     default:
         return state
     }

@@ -22,6 +22,7 @@ function Auth() {
         if(isAuthenticated){
             history.push('/');
         }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const content = () =>{

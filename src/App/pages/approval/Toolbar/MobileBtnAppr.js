@@ -67,6 +67,7 @@ function MobileBtnAppr() {
     const onBtnApproveClicked = () => {
         let appaction = {};
         let field = Object.keys(dtHeader[0])
+                    // eslint-disable-next-line array-callback-return
                     .find(key => {
                         if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] === user.idnum) {
                             return true;
@@ -81,6 +82,7 @@ function MobileBtnAppr() {
     const onBtnRejectClicked = () => {
         let appaction = {};
         let field = Object.keys(dtHeader[0])
+                    // eslint-disable-next-line array-callback-return
                     .find(key => {
                         if((key === 'spv1' || key === 'spv2') && dtHeader[0][key] ===  user.idnum) {
                             return true;

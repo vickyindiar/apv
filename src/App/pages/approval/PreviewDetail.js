@@ -34,6 +34,7 @@ const PreviewDetail = () => {
         else if(pdf !== null){
             setPopupVisible(true);
         }
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [img, pdf]);
     return (
         <>  
